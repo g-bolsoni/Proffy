@@ -9,3 +9,6 @@
  -Rota para criar uma aula
  -Rota para listar as aulas
     -filtrar por matéria, dia da semana e horário
+
+
+   
