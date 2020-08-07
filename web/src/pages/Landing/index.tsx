@@ -1,9 +1,9 @@
-import React,{Component} from 'react'
+import React, { useState, useEffect } from 'react'
 import {Link} from 'react-router-dom'
 
 import logoImg from '../../assests/images/logo.svg'
 import landingImg from '../../assests/images/landing.svg'
-
+import api from '../../services/api'
 
 import studyIcon from '../../assests/images/icons/study.svg'
 import giveClassesIcon from '../../assests/images/icons/give-classes.svg'
@@ -13,8 +13,14 @@ import './styles.css'
 
 
 
-class Landing extends Component{
-    render(){
+function Landing() {
+    const [totalConnections, setTotalConnections] = useState(0);
+    useEffect(()=>{
+        api.get('connections').then(res => {
+            const {total}= res.data;
+            setTotalConnections(total); 
+        })
+    },[])
         return( 
             <div id="page-landing">
                 <div id="page-landing-content" className="container">
@@ -38,11 +44,11 @@ class Landing extends Component{
                     </div>
 
                     <span className="total-connections">
-                        total de 200 conexoes ja realizadas <img src={purpleHeratIcon} alt="coração roxo"></img>
+                        total de {totalConnections} conexoes ja realizadas <img src={purpleHeratIcon} alt="coração roxo"></img>
                     </span>
                 </div>
             </div>
         );
-    }
+    
 }
 export default Landing;

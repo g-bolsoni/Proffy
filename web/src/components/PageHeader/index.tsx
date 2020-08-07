@@ -1,4 +1,4 @@
-import React, { Component } from'react'
+import React from'react'
 import { Link } from 'react-router-dom'
 import './style.css'
 
@@ -8,6 +8,7 @@ import logoImg from '../../assests/images/logo.svg'
 
 interface PageHeaderProps{
     title:string;
+    description ? :string;
 }
 
 const PageHeader: React.FunctionComponent<PageHeaderProps>=(props)=>{
@@ -25,7 +26,8 @@ const PageHeader: React.FunctionComponent<PageHeaderProps>=(props)=>{
                         <strong>
                             {props.title}
                         </strong>
-                    {props.children}
+                        {props.description && <p>{props.description}</p>}
+                        {props.children}
                     </div>
 
                 </header>
