@@ -12,6 +12,8 @@ interface ScheduleItem{
 
 
 export default class ClassesControler{
+    
+    //Consultar
     async index(req:Request,res:Response){
     const filters = req.query;
     const subject = filters.subject as string;
