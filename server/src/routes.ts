@@ -6,12 +6,11 @@ const routes = Router();
 const classesControler = new ClassesControler();
 const connectionsController = new ConnectionController();
 
-
-routes.post('/classes', classesControler.create);
 routes.get('/classes', classesControler.index);
+routes.post('/classes', classesControler.create);
 
-routes.post('/connections', connectionsController.create);
 routes.get('/connections', connectionsController.index);
+routes.post('/connections', connectionsController.create);
 
 
 
