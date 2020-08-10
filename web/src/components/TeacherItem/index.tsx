@@ -1,33 +1,46 @@
 import React from 'react'
 import whatsappIcon from '../../assests/images/icons/whatsapp.svg'
 import './style.css'
+import api from '../../services/api'
 
+export interface Teacher {
+    avatar:string;
+    bio:string;
+    cost:number;
+    id:number
+    name:string;
+    subject:string;
+    whatsapp:number
+};
+ interface TeacherItemProps{
+    teacher :Teacher
+}
 
-function TeacherItem(){
+const TeacherItem: React.FC<TeacherItemProps> =({teacher})=>{
+    function createNewConnection(){
+        api.post('connections',{user_id :teacher.id})
+    }
     return(
         <article className="teacher-item">
             <header>
-                <img alt="Foto do github" src="https://avatars2.githubusercontent.com/u/67272621?s=460&u=3726c346378e402d184fa16f588efd12fcd35a0d&v=4"/>
+                <img alt="Foto do github" src={teacher.name}/>
                 <div>
-                    <strong>Professor</strong>
-                    <span>Materia</span>
+                    <strong>{teacher.name}</strong>
+                    <span>{teacher.subject}</span>
                 </div>
             </header>
-            <p>
-                Entusiasta das melhores tecnologias de química avançada. 
-            <br/><br/>
-                Apaixonado por explodir coisas em laboratório e por mudar a vida das pessoas através de experiências. Mais de 200.000 pessoas já passaram por uma das minhas explosões.
-            </p>
+            
+            <p>{teacher.bio}</p>
 
             <footer>    
                 <p>
                     Preço/hora
-                    <strong>R$ 100,00</strong>
+                <strong>R$ {teacher.cost}</strong>
                 </p>
-                <button type='button'>
+                <a  target="_blank" onClick={createNewConnection}href={`https://wa.me/${teacher.whatsapp}`}>
                 <img src={whatsappIcon} alt="img do whats" />
                     Entrar em Contato
-                </button>
+                </a>
             </footer>
         </article>
     );

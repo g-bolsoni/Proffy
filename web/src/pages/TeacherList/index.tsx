@@ -1,24 +1,47 @@
-import React,{Component} from 'react'
+import React, { useState, FormEvent } from 'react'
 import PageHeader from '../../components/PageHeader'
-import TeacherItem from '../../components/TeacherItem' 
+import TeacherItem,{Teacher}from '../../components/TeacherItem' 
 import Input from '../../components/Input';
 import Select from '../../components/Select';
 
 
 
 import './style.css'
+import api from '../../services/api';
 
-class TheacherList extends Component{
-    render(){
+
+function TheacherList(){
+    const [teachers,setTeachers] = useState([])
+
+    const [subject, setSubject ]=useState('');
+    const [week_day, setWeekDay ]=useState('');
+    const [time, setTime ]=useState('');
+
+    async function searchTeachers(e:FormEvent){
+        e.preventDefault();
+
+        const res = await api.get('classes',{
+            params: {
+                subject,
+                week_day,
+                time
+            }
+        });
+        setTeachers(res.data)
+
+    }
+
         return(
             <div id="page-teacher-list" className="container">
                 <PageHeader title="Esses são os proffys disponíveis ">
-                    <form id="search-teacher">
+                    <form id="search-teacher" onSubmit={searchTeachers}>
                         
                        
                     <Select 
                         name="subject" 
                         label="Matéria "
+                        value={subject}
+                        onChange={(e) => {setSubject(e.target.value)}}
                         options={[
                             {value:'Artes', label:'Artes'},
                             {value:'Biologia', label:'Biologia'},
@@ -35,6 +58,8 @@ class TheacherList extends Component{
                     <Select 
                         name="week-day" 
                         label="Dia da semana "
+                        value={week_day}
+                        onChange={(e) => {setWeekDay(e.target.value)}}
                         options={[
                             {value:'0', label:'Domingo'},
                             {value:'1', label:'Segunda-Feira'},
@@ -46,9 +71,16 @@ class TheacherList extends Component{
                           
                         ]}
                     />
-                        <Input type="time"name="time" label="Hora "/>
+                        <Input 
+                            type="time"
+                            name="time" 
+                            label="Hora"
+                            value={time}
+                            onChange={(e) => {setTime(e.target.value)}}
+                            
+                        />
 
-                       
+                    <button type="submit">Buscar</button>
                        
 
                     </form>
@@ -56,15 +88,14 @@ class TheacherList extends Component{
 
 
                 <main>
-                    <TeacherItem/>
-                    <TeacherItem/>
-                    <TeacherItem/>
-                    <TeacherItem/>
-                    <TeacherItem/>
+               {teachers.map((teacher:Teacher) =>{
+                    return <TeacherItem key={teacher.id} teacher={teacher}/>
+               })}
+               
 
                 </main>
             </div>
         );
-    }
+    
 }
 export default TheacherList
